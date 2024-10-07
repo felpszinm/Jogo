@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo do Botão</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Jogo do Botão</a>
+    </nav>
+
+    <div class="container mt-5">
+        <h2>Qual botão está correto?</h2>
+        <div id="result" class="mt-3"></div>
+        <div class="btn-group container mt-3 mb-3" id="buttonGroup">
+            <!-- Botões serão gerados aqui -->
+        </div>
+        <button class="btn btn-primary" id="checkButton">Verificar Botão</button>
+    </div>
+
+    <script>
+        function sorteiaNumero(max) {
+            return Math.floor(Math.random() * max);
+        }
+
+        const totalBotoes = 5;
+        let botaoCorreto = sorteiaNumero(totalBotoes);
+        const buttonGroup = document.getElementById('buttonGroup');
+
+        for (let i = 0; i < totalBotoes; i++) {
+            const button = document.createElement('button');
+            button.className = 'btn btn-secondary m-2';
+            button.innerText = `Botão ${i + 1}`;
+            button.dataset.index = i;
+            buttonGroup.appendChild(button);
+        }
+
+        document.getElementById('checkButton').onclick = function() {
+            const botoes = buttonGroup.getElementsByTagName('button');
+            let mensagem = '';
+
+            for (let i = 0; i < botoes.length; i++) {
+                botoes[i].onclick = function() {
+                    if (parseInt(this.dataset.index) === botaoCorreto) {
+                        mensagem = `<p class="text-success">Você acertou! O botão correto é o ${botaoCorreto + 1}.</p>`;
+                    } else {
+                        mensagem = `<p class="text-danger">Errou! O botão correto é o ${botaoCorreto + 1}.</p>`;
+                    }
+                    document.getElementById('result').innerHTML = mensagem;
+                };
+            }
+        };
+    </script>
+</body>
+</html>
